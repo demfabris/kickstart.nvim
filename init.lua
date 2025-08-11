@@ -199,12 +199,6 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
-
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -216,6 +210,25 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.hl.on_yank()
+  end,
+})
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'TabLine', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'TabLineFill', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'TabLineSel', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'VertSplit', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'MsgArea', { bg = 'NONE' })
+    vim.api.nvim_set_hl(0, 'WinSeparator', { bg = 'NONE' })
   end,
 })
 
@@ -674,14 +687,14 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
         lua_ls = {
@@ -904,7 +917,21 @@ require('lazy').setup({
     config = function()
       vim.cmd.colorscheme 'adwaita'
     end,
+    opts = {
+      transparent = true,
+    },
   },
+  -- {
+  --   'Shatur/neovim-ayu',
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     transparent = true,
+  --   },
+  --   config = function()
+  --     vim.cmd.colorscheme 'ayu-dark'
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
