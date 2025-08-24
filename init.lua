@@ -18,7 +18,7 @@ vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
 
-vim.o.breakindent = true
+vim.o.breakindent = false
 
 -- Undo history
 vim.o.undofile = true
@@ -620,6 +620,9 @@ require('lazy').setup({
     'Shatur/neovim-ayu',
     lazy = false,
     priority = 1000,
+    opts = {
+      terminal = true,
+    },
     config = function()
       vim.cmd.colorscheme 'ayu-dark'
     end,
